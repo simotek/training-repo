@@ -9,9 +9,9 @@ Viewer::Viewer(QWidget *parent)
     QWidget * pBob = new QWidget();
     QHBoxLayout * pBobLayout = new QHBoxLayout(pBob);
 
-    pBobLayout->addWidget(new QLabel("Test"));
-    pBobLayout->addWidget(new QLabel("123"));
-    pBobLayout->addWidget(new QLabel("ABC"));
+    pBobLayout->addWidget(new QLabel("THIS"));
+    pBobLayout->addWidget(new QLabel("is"));
+    pBobLayout->addWidget(new QLabel("Sparta!"));
 
     QHBoxLayout * pLayout = new QHBoxLayout(this);
     pLayout->addWidget(pBob);
