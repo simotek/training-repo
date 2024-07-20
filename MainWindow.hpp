@@ -17,8 +17,16 @@ public:
 
     QString *getVersion();
 
+signals:
+    void sendingText(QString);
+
+public slots:
+    void setLabelToBob();
+    void onOkClicked();
+
+protected:
 private:
-    Ui::MainWindow *m_ui;
+    Ui::MainWindow *m_pUi;
 
     QString m_version;
 };
