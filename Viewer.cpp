@@ -1,5 +1,10 @@
 #include "Viewer.hpp"
 
+#include <QFile>
+
+#include <QDragEnterEvent>
+#include <QDropEvent>
+#include <QMimeData>
 #include <QKeyEvent>
 
 #include <QHBoxLayout>
@@ -34,6 +39,7 @@ Viewer::Viewer(QWidget *parent): QWidget(parent),
 
     setFocusPolicy(Qt::StrongFocus);
     setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    setAcceptDrops(true);
 }
 
 Viewer::~Viewer() {
@@ -99,6 +105,30 @@ void Viewer::keyPressEvent(QKeyEvent *pEvent)
             update();
             m_blue = false;
             break;
+    }
+}
+
+void Viewer::dragEnterEvent(QDragEnterEvent *event)
+{
+    for (int i=0; i<event->mimeData()->formats().size(); i++) {
+        qDebug("    %s",event->mimeData()->formats().at(i).toUtf8().data());
+    }
+
+    if (event->mimeData()->hasFormat("text/uri-list"))
+            event->acceptProposedAction();
+}
+
+void Viewer::dropEvent(QDropEvent *event)
+{
+
+    QString path = event->mimeData()->text();
+    path = path.remove("file://");
+
+    if (QFile::exists(path) && (
+        path.endsWith(".jpg") || path.endsWith(".png") || path.endsWith(".JPG"))) {
+        event->acceptProposedAction();
+        m_imagePath = path;
+        update();
     }
 }
 

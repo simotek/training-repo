@@ -14,6 +14,7 @@ public:
     Viewer(QWidget *parent = nullptr);
     ~Viewer();
 
+    void imageChanged(QString path);
     void setLabelTwo(QString text);
 
 public slots:
@@ -25,6 +26,8 @@ public slots:
     void setLabelThree(QString text);
 
 protected:
+    void dragEnterEvent(QDragEnterEvent *event);
+    void dropEvent(QDropEvent *event);
     void keyPressEvent(QKeyEvent * pEvent);
     void paintEvent(QPaintEvent * pEvent);
 
