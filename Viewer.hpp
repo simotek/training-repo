@@ -14,9 +14,11 @@ public:
     Viewer(QWidget *parent = nullptr);
     ~Viewer();
 
+    void imageChanged(QString path);
     void setLabelTwo(QString text);
 
 public slots:
+    void setImage(QString path);
     void setLabelOneNumber(int number);
     void setLabelTwoNumber(int number);
     void setLabelThreeNumber(int number);
@@ -24,10 +26,14 @@ public slots:
     void setLabelThree(QString text);
 
 protected:
+    void dragEnterEvent(QDragEnterEvent *event);
+    void dropEvent(QDropEvent *event);
     void keyPressEvent(QKeyEvent * pEvent);
     void paintEvent(QPaintEvent * pEvent);
 
 private:
+    QString m_imagePath;
+
     QLabel * m_pLabel1;
     QLabel * m_pLabel2;
     QLabel * m_pLabel3;
