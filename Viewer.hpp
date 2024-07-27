@@ -17,6 +17,7 @@ public:
     void setLabelTwo(QString text);
 
 public slots:
+    void setImage(QString path);
     void setLabelOneNumber(int number);
     void setLabelTwoNumber(int number);
     void setLabelThreeNumber(int number);
@@ -28,6 +29,8 @@ protected:
     void paintEvent(QPaintEvent * pEvent);
 
 private:
+    QString m_imagePath;
+
     QLabel * m_pLabel1;
     QLabel * m_pLabel2;
     QLabel * m_pLabel3;
