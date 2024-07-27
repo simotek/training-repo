@@ -112,10 +112,12 @@ void Viewer::paintEvent(QPaintEvent * pEvent)
     float widthScale = pixmap.width()/width();
     float heightScale = pixmap.height()/height();
 
-    if (heightScale > widthScale) {
-        pixmap = pixmap.scaledToHeight(height()-11);
-    } else {
-        pixmap = pixmap.scaledToWidth(width()-11);
+    if (m_imagePath != "") {
+        if (heightScale > widthScale) {
+            pixmap = pixmap.scaledToHeight(height()-11);
+        } else {
+            pixmap = pixmap.scaledToWidth(width()-11);
+        }
     }
 
     painter.setPen(Qt::black);
@@ -131,7 +133,9 @@ void Viewer::paintEvent(QPaintEvent * pEvent)
     }
 
     painter.drawRect(0,0, width()-1, height()-1);
-    painter.drawPixmap(border/2+width()/2-pixmap.width()/2-1, border/2+height()/2-pixmap.height()/2-1, pixmap);
+    if (m_imagePath != "") {
+        painter.drawPixmap(border/2+width()/2-pixmap.width()/2-1, border/2+height()/2-pixmap.height()/2-1, pixmap);
+    }
 
     QWidget::paintEvent(pEvent);
 }
