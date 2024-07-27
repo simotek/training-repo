@@ -23,6 +23,7 @@ signals:
 public slots:
     void setLabelToBob();
     void onOkClicked();
+    void onImport();
 
 protected:
 private:
