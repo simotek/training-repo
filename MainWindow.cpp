@@ -20,7 +20,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(m_pUi->horizontalSlider, SIGNAL(valueChanged(int)), m_pUi->viewer, SLOT(setLabelTwoNumber(int)));;
     connect(m_pUi->horizontalSlider, SIGNAL(valueChanged(int)), m_pUi->viewer, SLOT(setLabelThreeNumber(int)));;
 
-
+    connect(m_pUi->actionQuit, SIGNAL(triggered(bool)), QApplication::instance(), SLOT(quit()));
 }
 
 MainWindow::~MainWindow()
