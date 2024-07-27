@@ -21,6 +21,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(m_pUi->horizontalSlider, SIGNAL(valueChanged(int)), m_pUi->viewer, SLOT(setLabelThreeNumber(int)));;
 
     connect(m_pUi->actionQuit, SIGNAL(triggered(bool)), QApplication::instance(), SLOT(quit()));
+    connect(m_pUi->actionAbout_Qt, SIGNAL(triggered(bool)), QApplication::instance(), SLOT(aboutQt()));
 }
 
 MainWindow::~MainWindow()
