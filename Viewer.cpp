@@ -9,17 +9,11 @@
 
 #include <QHBoxLayout>
 #include <QLabel>
-#include <QPainter>
-#include <QBrush>
-#include <QKeyEvent>
 
-<<<<<<< HEAD
-=======
 #include <QBrush>
 #include <QPainter>
 #include <QPixmap>
 
->>>>>>> 1c5df8f8a99187cf2ca5bc6b64de1aa04f667eeb
 Viewer::Viewer(QWidget *parent): QWidget(parent),
     m_pLabel1(new QLabel("Test")),
     m_pLabel2(new QLabel("123")),
@@ -44,11 +38,8 @@ Viewer::Viewer(QWidget *parent): QWidget(parent),
     pLayout->addWidget(pBob);
 
     setFocusPolicy(Qt::StrongFocus);
-<<<<<<< HEAD
-=======
     setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     setAcceptDrops(true);
->>>>>>> 1c5df8f8a99187cf2ca5bc6b64de1aa04f667eeb
 }
 
 Viewer::~Viewer() {
@@ -57,14 +48,11 @@ Viewer::~Viewer() {
     delete m_pLabel3;
 }
 
-<<<<<<< HEAD
-=======
 void Viewer::setImage(QString path)
 {
     m_imagePath = path;
 }
 
->>>>>>> 1c5df8f8a99187cf2ca5bc6b64de1aa04f667eeb
 void Viewer::setLabelOneNumber(int number)
 {
     m_pLabel1->setText(QString::number(number,10));
@@ -107,7 +95,6 @@ void Viewer::keyPressEvent(QKeyEvent *pEvent)
 {
     switch (pEvent->key())
     {
-<<<<<<< HEAD
     case Qt::Key_B:
         m_blue = true;
         update();
@@ -118,17 +105,6 @@ void Viewer::keyPressEvent(QKeyEvent *pEvent)
         update();
         m_blue = false;
         break;
-=======
-        case Qt::Key_B:
-            m_blue = true;
-            update();
-            break;
-        case Qt::Key_A:
-            m_pLabel1->setText("Apple");
-        case Qt::Key_R:
-            update();
-            m_blue = false;
-            break;
     }
 }
 
@@ -139,7 +115,7 @@ void Viewer::dragEnterEvent(QDragEnterEvent *event)
     }
 
     if (event->mimeData()->hasFormat("text/uri-list"))
-            event->acceptProposedAction();
+        event->acceptProposedAction();
 }
 
 void Viewer::dropEvent(QDropEvent *event)
@@ -149,19 +125,15 @@ void Viewer::dropEvent(QDropEvent *event)
     path = path.remove("file://");
 
     if (QFile::exists(path) && (
-        path.endsWith(".jpg") || path.endsWith(".png") || path.endsWith(".JPG"))) {
+            path.endsWith(".jpg") || path.endsWith(".png") || path.endsWith(".JPG"))) {
         event->acceptProposedAction();
         m_imagePath = path;
         update();
->>>>>>> 1c5df8f8a99187cf2ca5bc6b64de1aa04f667eeb
     }
 }
 
 void Viewer::paintEvent(QPaintEvent * pEvent)
 {
-<<<<<<< HEAD
-    QPainter painter(this);
-=======
     int border = 5;
     QPainter painter(this);
 
@@ -178,7 +150,6 @@ void Viewer::paintEvent(QPaintEvent * pEvent)
         }
     }
 
->>>>>>> 1c5df8f8a99187cf2ca5bc6b64de1aa04f667eeb
     painter.setPen(Qt::black);
     if (hasFocus()) {
         if (m_blue) {
@@ -191,15 +162,10 @@ void Viewer::paintEvent(QPaintEvent * pEvent)
         painter.setBrush(QBrush(QColor(Qt::white)));
     }
 
-<<<<<<< HEAD
-
-    painter.drawRect(0,0, width()-1, height()-1);
-=======
     painter.drawRect(0,0, width()-1, height()-1);
     if (m_imagePath != "") {
         painter.drawPixmap(border/2+width()/2-pixmap.width()/2-1, border/2+height()/2-pixmap.height()/2-1, pixmap);
     }
->>>>>>> 1c5df8f8a99187cf2ca5bc6b64de1aa04f667eeb
 
     QWidget::paintEvent(pEvent);
 }
