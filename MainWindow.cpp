@@ -1,6 +1,8 @@
 #include "MainWindow.hpp"
 #include "ui_MainWindow.h"
 
+#include <QFileDialog>
+
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , m_pUi(new Ui::MainWindow)
@@ -20,6 +22,12 @@ MainWindow::MainWindow(QWidget *parent)
     connect(m_pUi->horizontalSlider, SIGNAL(valueChanged(int)), m_pUi->viewer, SLOT(setLabelTwoNumber(int)));;
     connect(m_pUi->horizontalSlider, SIGNAL(valueChanged(int)), m_pUi->viewer, SLOT(setLabelThreeNumber(int)));;
 
+<<<<<<< HEAD
+=======
+    connect(m_pUi->actionImport, SIGNAL(triggered(bool)), this, SLOT(onImport()));
+    connect(m_pUi->actionQuit, SIGNAL(triggered(bool)), QApplication::instance(), SLOT(quit()));
+    connect(m_pUi->actionAbout_Qt, SIGNAL(triggered(bool)), QApplication::instance(), SLOT(aboutQt()));
+>>>>>>> 1c5df8f8a99187cf2ca5bc6b64de1aa04f667eeb
 
 }
 
@@ -36,6 +44,16 @@ void MainWindow::setLabelToBob()
 void MainWindow::onOkClicked()
 {
     emit sendingText(m_pUi->person->text());
+<<<<<<< HEAD
+=======
+}
+
+void MainWindow::onImport()
+{
+    QString fileName = QFileDialog::getOpenFileName(this,
+        tr("Open Image"), "/home/simon", tr("Image Files (*.png *.jpg *.bmp)"));
+    m_pUi->viewer->setImage(fileName);
+>>>>>>> 1c5df8f8a99187cf2ca5bc6b64de1aa04f667eeb
 }
 
 QString *MainWindow::getVersion()
