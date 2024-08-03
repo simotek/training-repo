@@ -73,7 +73,7 @@ void MainWindow::onImagePathChanged(QString path)
         while (!image.atEnd()) {
             QByteArray line = image.readLine();
             for (int i=0; i< line.size(); i++) {
-                QString byte = QString::number((quint64)line.at(i),16);
+                QString byte = QString::number((quint64)line.at(i),64);
 
                 data.append(byte);
             }
