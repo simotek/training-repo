@@ -19,7 +19,7 @@ Viewer::Viewer(QWidget *parent): QWidget(parent),
     m_pLabel2(new QLabel("123")),
     m_pLabel3(new QLabel("ABC")),
     m_blue(false),
-    m_loadFromFile(false)
+    m_loadFromFile(true)
 {
     QWidget * pBob = new QWidget();
     QHBoxLayout * pBobLayout = new QHBoxLayout(pBob);
@@ -61,11 +61,13 @@ void Viewer::setImage(QString path)
 void Viewer::setPixmapData(QString data)
 {
     qDebug("Loading from data");
-    if (!m_pixmap.loadFromData(data.toUtf8().data(),"JPG")) {
-        qDebug("Failed to load data");
-        return;
+    if (!m_loadFromFile) {
+        if (!m_pixmap.loadFromData(data.toUtf8().data(),"JPG")) {
+            qDebug("Failed to load data");
+            return;
+        }
+        update();
     }
-    update();
 }
 
 void Viewer::setLabelOneNumber(int number)

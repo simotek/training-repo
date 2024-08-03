@@ -8,7 +8,7 @@
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , m_pUi(new Ui::MainWindow)
-    , m_useHex(false)
+    , m_useHex(true)
 {
     m_pUi->setupUi(this);
 
@@ -74,6 +74,7 @@ void MainWindow::onImagePathChanged(QString path)
             QByteArray line = image.readLine();
             for (int i=0; i< line.size(); i++) {
                 QString byte = QString::number((quint64)line.at(i),16);
+
                 data.append(byte);
             }
         }
