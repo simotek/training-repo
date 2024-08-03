@@ -17,8 +17,12 @@ public:
     void imageChanged(QString path);
     void setLabelTwo(QString text);
 
+signals:
+    void pathChanged(QString path);
+
 public slots:
     void setImage(QString path);
+    void setPixmapData(QString data);
     void setLabelOneNumber(int number);
     void setLabelTwoNumber(int number);
     void setLabelThreeNumber(int number);
@@ -33,12 +37,14 @@ protected:
 
 private:
     QString m_imagePath;
+    QPixmap m_pixmap;
 
     QLabel * m_pLabel1;
     QLabel * m_pLabel2;
     QLabel * m_pLabel3;
 
     bool m_blue;
+    bool m_loadFromFile;
 };
 
 #endif // VIEWER_HPP

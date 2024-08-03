@@ -24,11 +24,14 @@ public slots:
     void setLabelToBob();
     void onOkClicked();
     void onImport();
+    void onImagePathChanged(QString path);
+    void onTextChanged();
 
 protected:
 private:
     Ui::MainWindow *m_pUi;
 
     QString m_version;
+    bool m_useHex;
 };
 #endif // MAINWINDOW_HPP

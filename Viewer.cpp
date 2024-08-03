@@ -18,7 +18,8 @@ Viewer::Viewer(QWidget *parent): QWidget(parent),
     m_pLabel1(new QLabel("Test")),
     m_pLabel2(new QLabel("123")),
     m_pLabel3(new QLabel("ABC")),
-    m_blue(false)
+    m_blue(false),
+    m_loadFromFile(false)
 {
     QWidget * pBob = new QWidget();
     QHBoxLayout * pBobLayout = new QHBoxLayout(pBob);
@@ -51,6 +52,20 @@ Viewer::~Viewer() {
 void Viewer::setImage(QString path)
 {
     m_imagePath = path;
+    emit pathChanged(m_imagePath);
+    if (m_loadFromFile) {
+        m_pixmap = QPixmap(m_imagePath);
+    }
+}
+
+void Viewer::setPixmapData(QString data)
+{
+    qDebug("Loading from data");
+    if (!m_pixmap.loadFromData(data.toUtf8().data(),"JPG")) {
+        qDebug("Failed to load data");
+        return;
+    }
+    update();
 }
 
 void Viewer::setLabelOneNumber(int number)
@@ -128,6 +143,10 @@ void Viewer::dropEvent(QDropEvent *event)
         path.endsWith(".jpg") || path.endsWith(".png") || path.endsWith(".JPG"))) {
         event->acceptProposedAction();
         m_imagePath = path;
+        if (m_loadFromFile) {
+            m_pixmap = QPixmap(m_imagePath);
+        }
+        emit pathChanged(m_imagePath);
         update();
     }
 }
@@ -137,16 +156,14 @@ void Viewer::paintEvent(QPaintEvent * pEvent)
     int border = 5;
     QPainter painter(this);
 
-    QPixmap pixmap = QPixmap(m_imagePath);
-
-    float widthScale = pixmap.width()/width();
-    float heightScale = pixmap.height()/height();
+    float widthScale = m_pixmap.width()/width();
+    float heightScale = m_pixmap.height()/height();
 
     if (m_imagePath != "") {
         if (heightScale > widthScale) {
-            pixmap = pixmap.scaledToHeight(height()-11);
+            m_pixmap = m_pixmap.scaledToHeight(height()-11);
         } else {
-            pixmap = pixmap.scaledToWidth(width()-11);
+            m_pixmap = m_pixmap.scaledToWidth(width()-11);
         }
     }
 
@@ -164,7 +181,7 @@ void Viewer::paintEvent(QPaintEvent * pEvent)
 
     painter.drawRect(0,0, width()-1, height()-1);
     if (m_imagePath != "") {
-        painter.drawPixmap(border/2+width()/2-pixmap.width()/2-1, border/2+height()/2-pixmap.height()/2-1, pixmap);
+        painter.drawPixmap(border/2+width()/2-m_pixmap.width()/2-1, border/2+height()/2-m_pixmap.height()/2-1, m_pixmap);
     }
 
     QWidget::paintEvent(pEvent);
