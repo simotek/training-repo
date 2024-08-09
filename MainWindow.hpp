@@ -24,6 +24,7 @@ public slots:
     void setLabelToBob();
     void onOkClicked();
     void onImport();
+    void onImagePathChanged(QString path);
 
 protected:
 private:

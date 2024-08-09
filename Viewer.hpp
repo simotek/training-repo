@@ -17,6 +17,9 @@ public:
     void imageChanged(QString path);
     void setLabelTwo(QString text);
 
+signals:
+    void pathChanged(QString path);
+
 public slots:
     void setImage(QString path);
     void setLabelOneNumber(int number);
