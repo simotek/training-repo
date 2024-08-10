@@ -23,7 +23,7 @@ jobs:
         run: |
             mkdir build
             cd build
-            qmake ../ImageCorrupter.pro
+            qmake6 ../ImageCorrupter.pro
             make
 
 
