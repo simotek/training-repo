@@ -3,7 +3,7 @@ name: Multi platform build
 on:
   push:
     branches:
-      - "main"
+      - "my-changes"
   
   workflow_dispatch:
 
