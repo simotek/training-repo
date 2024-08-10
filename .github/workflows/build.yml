@@ -20,7 +20,6 @@ jobs:
           sudo apt install -y make qmake6 qt6-base-dev
 
       - name: Build
-        working-directory: projects
         run: |
             mkdir build
             cd build
