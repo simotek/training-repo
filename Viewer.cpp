@@ -19,7 +19,8 @@ Viewer::Viewer(QWidget *parent): QWidget(parent),
     m_pLabel2(new QLabel("123")),
     m_pLabel3(new QLabel("ABC")),
     m_blue(false),
-    m_loadFromFile(true)
+    m_loadFromFile(false),
+    m_useBase64(false)
 {
     QWidget * pBob = new QWidget();
     QHBoxLayout * pBobLayout = new QHBoxLayout(pBob);
@@ -49,6 +50,11 @@ Viewer::~Viewer() {
     delete m_pLabel3;
 }
 
+void Viewer::setUseBase64(bool base64)
+{
+    m_useBase64 = base64;
+}
+
 void Viewer::setImage(QString path)
 {
     m_imagePath = path;
@@ -58,13 +64,22 @@ void Viewer::setImage(QString path)
     }
 }
 
-void Viewer::setPixmapData(QString data)
+void Viewer::setPixmapData(QByteArray data)
 {
     qDebug("Loading from data");
     if (!m_loadFromFile) {
-        if (!m_pixmap.loadFromData(data.toUtf8().data(),"JPG")) {
-            qDebug("Failed to load data");
-            return;
+        //QByteArray ba;
+        //ba.append(data.toUtf8());
+        if (m_useBase64) {
+            if (!m_pixmap.loadFromData(QByteArray::fromBase64(data))) {
+                qDebug("Failed to load data");
+                return;
+            }
+        } else {
+            if (!m_pixmap.loadFromData(data)) {
+                qDebug("Failed to load data");
+                return;
+            }
         }
         update();
     }

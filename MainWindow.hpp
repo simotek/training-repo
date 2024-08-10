@@ -33,5 +33,6 @@ private:
 
     QString m_version;
     bool m_useHex;
+    bool m_useBase64;
 };
 #endif // MAINWINDOW_HPP
