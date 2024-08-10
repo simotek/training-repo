@@ -1,6 +1,8 @@
 #include "Viewer.hpp"
 
 #include <QFile>
+#include <QtGlobal>
+#include <QtSystemDetection>
 
 #include <QDragEnterEvent>
 #include <QDropEvent>
@@ -154,8 +156,12 @@ void Viewer::dropEvent(QDropEvent *event)
 {
 
     QString path = event->mimeData()->text();
+#ifdef Q_OS_WIN
+    path = path.remove("file:///");
+#else
     path = path.remove("file://");
-
+#endif
+    qDebug("%s",path.toUtf8().data());
     if (QFile::exists(path) && (
             path.endsWith(".jpg") || path.endsWith(".png") || path.endsWith(".JPG"))) {
         event->acceptProposedAction();
