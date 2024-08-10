@@ -14,6 +14,7 @@ public:
     Viewer(QWidget *parent = nullptr);
     ~Viewer();
 
+    void setUseBase64(bool base64);
     void imageChanged(QString path);
     void setLabelTwo(QString text);
 
@@ -22,6 +23,7 @@ signals:
 
 public slots:
     void setImage(QString path);
+    void setPixmapData(QByteArray data);
     void setLabelOneNumber(int number);
     void setLabelTwoNumber(int number);
     void setLabelThreeNumber(int number);
@@ -36,12 +38,15 @@ protected:
 
 private:
     QString m_imagePath;
+    QPixmap m_pixmap;
 
     QLabel * m_pLabel1;
     QLabel * m_pLabel2;
     QLabel * m_pLabel3;
 
     bool m_blue;
+    bool m_loadFromFile;
+    bool m_useBase64;
 };
 
 #endif // VIEWER_HPP
