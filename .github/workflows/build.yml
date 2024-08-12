@@ -17,7 +17,7 @@ jobs:
       - name: Install required libraries
         run: |
           sudo apt update
-          sudo apt install -y make qmake6 qt6-base-dev qt6-core
+          sudo apt install -y make qmake6 qt6-base-dev
 
       - name: Build
         run: |

@@ -2,7 +2,7 @@
 
 #include <QFile>
 #include <QtGlobal>
-#include <QtSystemDetection>
+#include <QtCore>
 
 #include <QDragEnterEvent>
 #include <QDropEvent>
