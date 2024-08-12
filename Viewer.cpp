@@ -22,7 +22,9 @@ Viewer::Viewer(QWidget *parent): QWidget(parent),
     m_pLabel3(new QLabel("ABC")),
     m_blue(false),
     m_loadFromFile(false),
-    m_useBase64(false)
+    m_useBase64(false),
+    m_loadFailed(false),
+    m_loadSuccess(false)
 {
     QWidget * pBob = new QWidget();
     QHBoxLayout * pBobLayout = new QHBoxLayout(pBob);
@@ -69,17 +71,18 @@ void Viewer::setImage(QString path)
 void Viewer::setPixmapData(QByteArray data)
 {
     qDebug("Loading from data");
+    m_loadFailed = false;
     if (!m_loadFromFile) {
-        //QByteArray ba;
-        //ba.append(data.toUtf8());
         if (m_useBase64) {
             if (!m_pixmap.loadFromData(QByteArray::fromBase64(data))) {
                 qDebug("Failed to load data");
+                m_loadFailed = true;
                 return;
             }
         } else {
             if (!m_pixmap.loadFromData(data)) {
                 qDebug("Failed to load data");
+                m_loadFailed = true;
                 return;
             }
         }
@@ -156,11 +159,13 @@ void Viewer::dropEvent(QDropEvent *event)
 {
 
     QString path = event->mimeData()->text();
+
 #ifdef Q_OS_WIN
     path = path.remove("file:///");
 #else
     path = path.remove("file://");
 #endif
+
     qDebug("%s",path.toUtf8().data());
     if (QFile::exists(path) && (
             path.endsWith(".jpg") || path.endsWith(".png") || path.endsWith(".JPG"))) {
@@ -195,13 +200,16 @@ void Viewer::paintEvent(QPaintEvent * pEvent)
         if (m_blue) {
             painter.setBrush(QBrush(QColor(Qt::blue)));
         } else {
-            painter.setBrush(QBrush(QColor(Qt::red)));
+            painter.setBrush(QBrush(QColor(Qt::black)));
         }
 
     } else {
-        painter.setBrush(QBrush(QColor(Qt::white)));
+        painter.setBrush(QBrush(QColor(217,217,217)));
     }
 
+    if (m_loadFailed) {
+        painter.setBrush(QBrush(QColor(Qt::red)));
+    }
     painter.drawRect(0,0, width()-1, height()-1);
     if (m_imagePath != "") {
         painter.drawPixmap(border/2+width()/2-m_pixmap.width()/2-1, border/2+height()/2-m_pixmap.height()/2-1, m_pixmap);

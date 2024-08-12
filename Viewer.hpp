@@ -47,6 +47,8 @@ private:
     bool m_blue;
     bool m_loadFromFile;
     bool m_useBase64;
+    bool m_loadFailed;
+    bool m_loadSuccess;
 };
 
 #endif // VIEWER_HPP
