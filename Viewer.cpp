@@ -40,6 +40,8 @@ Viewer::Viewer(QWidget *parent): QWidget(parent),
     m_pLabel2->setAlignment(Qt::AlignCenter);
     m_pLabel3->setAlignment(Qt::AlignRight);
 
+    //connect(m_pUi->updateButton, SIGNAL(clicked()), m_pUi->viewer, SLOT(onUpdateClicked()));
+
     QHBoxLayout * pLayout = new QHBoxLayout(this);
     pLayout->addWidget(pBob);
 
@@ -88,6 +90,13 @@ void Viewer::setPixmapData(QByteArray data)
         }
         update();
     }
+}
+
+void Viewer::onUpdateClicked()
+{
+    qDebug("Update buddon pressed");
+    return;
+    update();
 }
 
 void Viewer::setLabelOneNumber(int number)
