@@ -1,6 +1,8 @@
 #include "Viewer.hpp"
 
 #include <QFile>
+#include <QtGlobal>
+#include <QtCore>
 
 #include <QDragEnterEvent>
 #include <QDropEvent>
@@ -20,7 +22,9 @@ Viewer::Viewer(QWidget *parent): QWidget(parent),
     m_pLabel3(new QLabel("ABC")),
     m_blue(false),
     m_loadFromFile(false),
-    m_useBase64(false)
+    m_useBase64(false),
+    m_loadFailed(false),
+    m_loadSuccess(false)
 {
     QWidget * pBob = new QWidget();
     QHBoxLayout * pBobLayout = new QHBoxLayout(pBob);
@@ -67,17 +71,18 @@ void Viewer::setImage(QString path)
 void Viewer::setPixmapData(QByteArray data)
 {
     qDebug("Loading from data");
+    m_loadFailed = false;
     if (!m_loadFromFile) {
-        //QByteArray ba;
-        //ba.append(data.toUtf8());
         if (m_useBase64) {
             if (!m_pixmap.loadFromData(QByteArray::fromBase64(data))) {
                 qDebug("Failed to load data");
+                m_loadFailed = true;
                 return;
             }
         } else {
             if (!m_pixmap.loadFromData(data)) {
                 qDebug("Failed to load data");
+                m_loadFailed = true;
                 return;
             }
         }
@@ -127,16 +132,16 @@ void Viewer::keyPressEvent(QKeyEvent *pEvent)
 {
     switch (pEvent->key())
     {
-        case Qt::Key_B:
-            m_blue = true;
-            update();
-            break;
-        case Qt::Key_A:
-            m_pLabel1->setText("Apple");
-        case Qt::Key_R:
-            update();
-            m_blue = false;
-            break;
+    case Qt::Key_B:
+        m_blue = true;
+        update();
+        break;
+    case Qt::Key_A:
+        m_pLabel1->setText("Apple");
+    case Qt::Key_R:
+        update();
+        m_blue = false;
+        break;
     }
 }
 
@@ -147,17 +152,23 @@ void Viewer::dragEnterEvent(QDragEnterEvent *event)
     }
 
     if (event->mimeData()->hasFormat("text/uri-list"))
-            event->acceptProposedAction();
+        event->acceptProposedAction();
 }
 
 void Viewer::dropEvent(QDropEvent *event)
 {
 
     QString path = event->mimeData()->text();
-    path = path.remove("file://");
 
+#ifdef Q_OS_WIN
+    path = path.remove("file:///");
+#else
+    path = path.remove("file://");
+#endif
+
+    qDebug("%s",path.toUtf8().data());
     if (QFile::exists(path) && (
-        path.endsWith(".jpg") || path.endsWith(".png") || path.endsWith(".JPG"))) {
+            path.endsWith(".jpg") || path.endsWith(".png") || path.endsWith(".JPG"))) {
         event->acceptProposedAction();
         m_imagePath = path;
         if (m_loadFromFile) {
@@ -189,13 +200,16 @@ void Viewer::paintEvent(QPaintEvent * pEvent)
         if (m_blue) {
             painter.setBrush(QBrush(QColor(Qt::blue)));
         } else {
-            painter.setBrush(QBrush(QColor(Qt::red)));
+            painter.setBrush(QBrush(QColor(Qt::black)));
         }
 
     } else {
-        painter.setBrush(QBrush(QColor(Qt::white)));
+        painter.setBrush(QBrush(QColor(217,217,217)));
     }
 
+    if (m_loadFailed) {
+        painter.setBrush(QBrush(QColor(Qt::red)));
+    }
     painter.drawRect(0,0, width()-1, height()-1);
     if (m_imagePath != "") {
         painter.drawPixmap(border/2+width()/2-m_pixmap.width()/2-1, border/2+height()/2-m_pixmap.height()/2-1, m_pixmap);

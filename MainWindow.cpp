@@ -147,4 +147,3 @@ QString *MainWindow::getVersion()
 {
     return &m_version;
 }
-
