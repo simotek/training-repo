@@ -24,6 +24,7 @@ signals:
 public slots:
     void setImage(QString path);
     void setPixmapData(QByteArray data);
+    void onUpdateClicked();
     void setLabelOneNumber(int number);
     void setLabelTwoNumber(int number);
     void setLabelThreeNumber(int number);
